@@ -3,6 +3,15 @@ use spin::Mutex;
 use volatile::Volatile;
 use lazy_static::lazy_static;
 
+lazy_static! {
+    pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
+        column_position: 0,
+        color_code: ColorCode::new(Color::Yellow, Color::Black),
+        buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
+    });
+}
+
+
 #[allow(dead_code)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
@@ -81,7 +90,7 @@ impl Writer {
     pub fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
             match byte {
-                0x20..=0x70 | b'\n' => self.write_byte(byte),
+                0x20..=0x7e | b'\n' => self.write_byte(byte),
                 _ => self.write_byte(0xfe),
             }
         }
@@ -113,14 +122,6 @@ impl fmt::Write for Writer {
         self.write_string(s);
         Ok(())
     }
-}
-
-lazy_static! {
-    pub static ref WRITER: Mutex<Writer> = Mutex::new(Writer {
-        column_position: 0,
-        color_code: ColorCode::new(Color::Yellow, Color::Black),
-        buffer: unsafe { &mut *(0xb8000 as *mut Buffer) },
-    });
 }
 
 #[macro_export]
