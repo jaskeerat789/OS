@@ -1,5 +1,6 @@
 #![no_std]
 #![cfg_attr(test,no_main)]
+#![feature(abi_x86_interrupt)]
 #![feature(custom_test_frameworks)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
@@ -7,6 +8,7 @@
 use core::panic::PanicInfo;
 pub mod serial;
 pub mod vga_buffer;
+pub mod interrupts;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[repr(u32)]
@@ -36,6 +38,10 @@ where T:Fn(),
         self();
         serial_println!("[OK]");
     }
+}
+
+pub fn init(){
+    interrupts::init_idt();
 }
 
 pub fn test_runner(tests: &[&dyn Testable]) {
