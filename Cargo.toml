@@ -12,7 +12,7 @@ edition = "2018"
 # panic = "abort"
 
 [dependencies]
-bootloader = "0.9.8"
+bootloader = { version = "0.9.3", features = ["map_physical_memory"]}
 volatile = "0.2.6"
 spin = "0.5.2"
 x86_64 = "0.12.1"
