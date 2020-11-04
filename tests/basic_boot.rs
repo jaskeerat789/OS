@@ -14,7 +14,7 @@ pub extern "C" fn _start() -> ! {
     loop {}
 }
 
-fn test_runner(tests: &[&dyn Fn()]) {
+fn test_runner(_tests: &[&dyn Fn()]) {
     unimplemented!();
 }
 

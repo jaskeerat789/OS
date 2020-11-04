@@ -5,7 +5,7 @@ use crate::println;
 
 use lazy_static::lazy_static;
 use pic8259_simple::ChainedPics;
-use spin;
+
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame, PageFaultErrorCode};
 
 pub const PIC_1_OFFSET: u8 = 32;
