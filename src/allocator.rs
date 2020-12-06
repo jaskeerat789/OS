@@ -1,7 +1,7 @@
 use alloc::alloc::{GlobalAlloc, Layout};
-use bump::BumpAllocator;
 use core::ptr::null_mut;
-use linked_list_allocator::LockedHeap;
+use linked_list::LinkedListAllocator;
+use fixed_size_block::FixedSizeBlockAllocator;
 use spin::{Mutex, MutexGuard};
 use x86_64::{
     structures::paging::{
@@ -12,6 +12,7 @@ use x86_64::{
 
 pub mod bump;
 pub mod linked_list;
+pub mod fixed_size_block;
 
 pub struct Dummy;
 pub struct Locked<A> {
@@ -74,7 +75,7 @@ fn align_up(addr: usize, align: usize) -> usize {
 }
 
 #[global_allocator]
-static ALLOCATOR: Locked<BumpAllocator> = Locked::new(BumpAllocator::new());
+static ALLOCATOR: Locked<FixedSizeBlockAllocator> = Locked::new(FixedSizeBlockAllocator::new());
 
 unsafe impl GlobalAlloc for Dummy {
     unsafe fn alloc(&self, _layout: Layout) -> *mut u8 {

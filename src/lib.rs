@@ -6,6 +6,7 @@
 #![reexport_test_harness_main = "test_main"]
 #![feature(alloc_error_handler)]
 #![feature(const_mut_refs)]
+#![feature(const_in_array_repeat_expressions)]
 
 pub mod allocator;
 pub mod gdt;
