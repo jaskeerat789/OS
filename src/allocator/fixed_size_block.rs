@@ -29,7 +29,6 @@ impl FixedSizeBlockAllocator {
             Err(_) => ptr::null_mut(),
         }
     }
-
 }
 
 unsafe impl GlobalAlloc for Locked<FixedSizeBlockAllocator> {

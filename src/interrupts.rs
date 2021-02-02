@@ -57,7 +57,7 @@ extern "x86-interrupt" fn double_fault_handler(
 }
 
 extern "x86-interrupt" fn timer_interrupt_handler(_stack_frame: &mut InterruptStackFrame) {
-    print!(".");
+    // print!(".");
 
     unsafe {
         PICS.lock()
